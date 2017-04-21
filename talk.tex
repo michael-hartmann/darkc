@@ -68,8 +68,6 @@
 
 \section*{Einleitung}
 \frame {
-    \frametitle{Mein Weg zu C}
-    
     \begin{center}
     \only<1>
     {
@@ -84,8 +82,6 @@
 }
 
 \frame {
-    \frametitle{TIOBE Programming Community Index}
-
     \begin{center}
     \includegraphics[scale=0.3]{images/tiobe.png}
     \end{center}
@@ -104,7 +100,7 @@
 \frame {
     \frametitle{Keywords}
 
-\texttt{{\only<2->{\color{red}}auto}
+\texttt{{\only<2>{\color{red}}auto}
     break
     case
     char
@@ -122,10 +118,10 @@
     if
     int
     long
-    register
+    {\only<3>{\color{red}}register}
     return
     short
-    {\only<3>{\color{red}}signed}
+    {\only<4>{\color{red}}signed}
     sizeof
     static
     struct
@@ -150,7 +146,7 @@ int *p = &x;
 /* Fehler */
 z = y/*p;
 
-/* y/(*p) */
+/* syntaktisch korrekt */
 z = y/ *p;
 \end{lstlisting}
 \end{frame}
@@ -525,14 +521,13 @@ mögliche Ausgabe
 \item 0
 \item 42
 \item -1
-\item \texttt{Poste Browserverlauf auf Facebook...}
+\item \texttt{Überschreibe Festplatte...}
 \end{itemize}
 \end{frame}
 
 \frame {
 \frametitle{Was ist undefiniert?}
 
-Z.B.:
 \begin{itemize}
 \item lesen uninitialisierter Variablen
 \item Dereferenzieren von wilden Pointern, Out of Bounds Array Accesses
@@ -562,8 +557,26 @@ int main(void)
 auf meinem Rechner:
 
 \texttt{f(-2147483648)=-2147483648}
-
 \end{frame}
+
+\frame {
+	\frametitle{Zweierkomplement}
+
+\begin{center}
+	\begin{tabular}{c|c}
+	Bits & Wert \\
+\hline
+	011 &  3 \\
+	010 &  2 \\
+	001 &  1 \\
+	000 &  0 \\
+	111 & −1 \\
+	110 & −2 \\
+	101 & −3 \\
+	100 & -4
+    \end{tabular}
+\end{center}
+}
 
 \begin{frame}[fragile]
 \frametitle{Vorteile}
@@ -830,28 +843,33 @@ int main(int argc, char *argv[]) {
 \frame {
 \frametitle{Undefiniertes Verhalten und Debugging...}
 
+\only<1> {
 \texttt{\$ gcc -Wall -Wextra -O2 truefalse.c  \\
 \$ ./a.out  \\
 false \\
-true \\
-\$ clang -Wall -Wextra -Oz truefalse.c  \\
+true}
+}
+
+\only<2> {
+\texttt{\$ clang -Wall -Wextra -Oz truefalse.c  \\
 \$ ./a.out  \\
 false \\
 false
 }
 }
+}
 
-\section{Workarounds}
+\section{Helfer}
 
 \frame {
     \begin{center}
     \color{purple}
-    \Huge Workarounds
+    \Huge Helfer
     \end{center}
 }
 
 \frame {
-    \frametitle{Workarounds}
+    \frametitle{Helfer}
 
     \begin{itemize}
     \item Compiler Warnungen: \texttt{-Wall -Wextra}
@@ -926,5 +944,66 @@ Exiting
     }
 }
 
+\frame {
+    \begin{center}
+    \color{purple}
+    \Huge Bonus Folien
+    \end{center}
+}
+
+\begin{frame}[fragile]
+\frametitle{Find a bug}
+\begin{lstlisting}
+int div(int a, int b)
+{
+    assert(b != 0);
+    return a / b;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Find a bug}
+\begin{lstlisting}
+const char *string = "Hallo Welt";
+size_t length = strlen(str);
+for(size_t i = length - 1; i >= 0; i--)
+    putchar(str[i]);
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Find a bug}
+\begin{lstlisting}
+int my_strlen(const char *x)
+{
+    int res = 0;
+    while(*x)
+    {
+        res++;
+        x++;
+    }
+    return res;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Kann die Funktion \texttt{inf} zurückgeben?}
+\begin{lstlisting}
+double div(double x, double y) {
+    return x/y;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Was ist \texttt{add(UINT\_MAX,1)}?}
+\begin{lstlisting}
+unsigned int add(unsigned int x, unsigned int y)
+    return x+y;
+}
+\end{lstlisting}
+\end{frame}
+
 \end{document}
-\grid
