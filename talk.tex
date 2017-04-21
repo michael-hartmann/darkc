@@ -17,6 +17,7 @@
 \beamertemplatenavigationsymbolsempty
 
 \definecolor{darkgreen}{rgb}{0,0.5,0}
+\definecolor{darkblue}{RGB}{20,20,155}
 \definecolor{purple}{RGB}{51,51,178}
 
 \hypersetup{
@@ -37,6 +38,17 @@
     citecolor=green,
     filecolor=magenta,
     urlcolor=darkgreen
+}
+
+\lstset{ %
+  commentstyle=\color{darkblue}, % comment style
+  keepspaces=true,               % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{red},      % keyword style
+  basicstyle=\ttfamily\small,
+  language=C,                    % the language of the code
+  numbers=left,                  % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                 % how far the line-numbers are from the code
+  numberstyle=\tiny,             % the style that is used for the line-numbers
 }
 
 
@@ -131,19 +143,14 @@
 \begin{frame}[fragile]
 \frametitle{Kommentare}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{red}]
+\begin{lstlisting}
 int x = 2, y = 10, z;
 int *p = &x; 
 
+/* Fehler */
 z = y/*p;
-\end{lstlisting}
 
-vs.
-
-\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{red}]
-int x = 2, y = 10, z;
-int *p = &x; 
-
+/* y/(*p) */
 z = y/ *p;
 \end{lstlisting}
 \end{frame}
@@ -151,7 +158,7 @@ z = y/ *p;
 \begin{frame}[fragile]
 \frametitle{Kommentare}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{red}]
+\begin{lstlisting}
 int x = 10, y;
 y = x//* kommentar */2;
 printf("%d\n", y);
@@ -198,9 +205,8 @@ C89: 5 \quad\quad C99: Fehler
 \begin{frame}[fragile]
     \frametitle{VLA}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{red}]
-double sum(size_t nmax)
-{
+\begin{lstlisting}
+double sum(size_t nmax) {
     double sum = 0, buf[nmax];
 
     for(size_t i = 0; i < nmax; i++)
@@ -230,7 +236,7 @@ sum(10000000); // Segmentation Fault
 \begin{frame}[fragile]
 \frametitle{Macros}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{red}]
+\begin{lstlisting}
 #define SQUARE(x) x*x
 
 SQUARE(2+1);
@@ -241,7 +247,7 @@ SQUARE(2+1);
 \begin{frame}[fragile]
 \frametitle{Macros}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{red}]
+\begin{lstlisting}
 #define SQUARE(x) x*x
 
 SQUARE(2+1); // 2+1*2+1 = 5
@@ -252,7 +258,7 @@ SQUARE(2+1); // 2+1*2+1 = 5
 \begin{frame}[fragile]
 \frametitle{Macros}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{red}]
+\begin{lstlisting}
 #define SQUARE(x) (x)*(x)
 
 SQUARE(2+1);
@@ -263,7 +269,7 @@ SQUARE(2+1);
 \begin{frame}[fragile]
 \frametitle{Macros}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{red}]
+\begin{lstlisting}
 #define SQUARE(x) (x)*(x)
 
 SQUARE(2+1); // (2+1)*(2+1) = 9
@@ -274,7 +280,7 @@ SQUARE(2+1); // (2+1)*(2+1) = 9
 \begin{frame}[fragile]
 \frametitle{Macros}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{red}]
+\begin{lstlisting}
 #define SQUARE(x) (x)*(x)
 
 SQUARE(3000000000); // -494665728
@@ -284,7 +290,7 @@ SQUARE(3000000000); // -494665728
 \begin{frame}[fragile]
 \frametitle{Macros}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{red}]
+\begin{lstlisting}
 #define SQUARE(x) (x)*(x)
 
 SQUARE(3000000000); // -494665728
@@ -295,7 +301,7 @@ SQUARE(3000000000.); // 9e18
 \begin{frame}[fragile]
 \frametitle{Macros}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{red}]
+\begin{lstlisting}
 #define MIN(X, Y)  ((X) < (Y) ? (X) : (Y))
 
 min(a,b++);
@@ -306,7 +312,7 @@ min(x+y,foo(z));
 \begin{frame}[fragile]
 \frametitle{Macros}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily,keywordstyle=\color{red}]
+\begin{lstlisting}
 #define MIN(X, Y)  ((X) < (Y) ? (X) : (Y))
 
 min(a,min(b,min(c,d)));
@@ -323,8 +329,9 @@ min(a,min(b,min(c,d)));
 \begin{frame}[fragile]
 \frametitle{Macros}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
-#define assert(e) if(!e) panic(__FILE__, __LINE__)
+\begin{lstlisting}
+#define assert(e) \
+	if(!e) panic(__FILE__, __LINE__)
 
 int x = 0, y = 1;
 assert(x > y);
@@ -339,8 +346,9 @@ if(!0 > 1) /* 1 > 1 */
 \begin{frame}[fragile]
 \frametitle{Macros}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
-#define assert(e) if(!(e)) panic(__FILE__, __LINE__)
+\begin{lstlisting}
+#define assert(e) \
+	if(!(e)) panic(__FILE__, __LINE__)
 
 if(x > 0 && y > 0)
     assert(x > y);
@@ -361,9 +369,9 @@ if(x > 0 && y > 0)
 \begin{frame}[fragile]
 \frametitle{Macros}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
+\begin{lstlisting}
 #define assert(e) \
-{ if(!(e)) panic(__FILE__, __LINE__); }
+	{ if(!(e)) panic(__FILE__, __LINE__); }
 
 if(x > 0 && y > 0)
     assert(x > y);
@@ -382,14 +390,15 @@ else
 \begin{frame}[fragile]
 \frametitle{Macros}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
+\begin{lstlisting}
 /* correct */
 #define assert(e) \
   (void)((e)||panic(__FILE__, __LINE__))
 
 /* should also work */
-#define assert(e)
-  do { if(!(e)) panic(__FILE__, __LINE__); } while(0)
+#define assert(e) \
+	do { if(!(e)) panic(__FILE__, __LINE__); } \
+		while(0)
 \end{lstlisting}
 \end{frame}
 
@@ -405,7 +414,7 @@ else
 \begin{frame}[fragile]
 \frametitle{\texttt{gets}}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
+\begin{lstlisting}
 char *gets(char *s);
 \end{lstlisting}
 
@@ -420,13 +429,15 @@ it is extremely dangerous to use.  It has been used to break computer security.
 \begin{frame}[fragile]
 \frametitle{\texttt{realloc}}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
-char *buffer = (char *)malloc(elems*sizeof(char));
+\begin{lstlisting}
+char *buf = (char *)malloc(elems*sizeof(char));
+if(buf == NULL)
+	...
 
 ...
 
-buffer = realloc(buffer, newsize*sizeof(char));
-if(buffer == NULL)
+buf = realloc(buffer, newelems*sizeof(char));
+if(buf == NULL)
     /* Memory leak */
     ...
 \end{lstlisting}
@@ -444,7 +455,7 @@ external integer \texttt{signgam} declared in \texttt{<math.h>}. [$\dots$]
 }
 \only<2->
 {
-Since using a constant location signgam is not thread-safe, the functions
+Since using a constant location \texttt{signgam} is not thread-safe, the functions
 \texttt{lgamma\_r()}, \texttt{lgammaf\_r()}, and \texttt{lgammal\_r()} have been
 introduced; they return the sign via the argument \texttt{signp}.
 }
@@ -461,7 +472,7 @@ introduced; they return the sign via the argument \texttt{signp}.
 \begin{frame}[fragile]
 \frametitle{\texttt{errno}}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
+\begin{lstlisting}
 library_function();
 if(errno)
     /* Fehlerbehandlung */
@@ -471,7 +482,7 @@ if(errno)
 \begin{frame}[fragile]
 \frametitle{\texttt{errno}}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
+\begin{lstlisting}
 errno = 0;
 library_function();
 if(errno)
@@ -482,7 +493,7 @@ if(errno)
 \begin{frame}[fragile]
 \frametitle{\texttt{errno}}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
+\begin{lstlisting}
 ret = library_function();
 if(error_condition)
     /* inspect errno */
@@ -501,7 +512,7 @@ if(error_condition)
 \begin{frame}[fragile]
 \frametitle{Undefined behavior}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
+\begin{lstlisting}
 int buffer[] = { 1,2,3 };
 int x = buffer[3];
 printf("%d\n", x);
@@ -527,6 +538,8 @@ Z.B.:
 \item Dereferenzieren von wilden Pointern, Out of Bounds Array Accesses
 \item Dereferenzieren des \texttt{NULL} Pointers
 \item Casting: \texttt{int *} nach \texttt{float *} casten und Pointer dereferenzieren
+\item Integer Division durch 0
+\item {\it An unmatched ‘ or ” character is encountered on a logical source line during tokenization.}
 \item ...
 \end{itemize}
 }
@@ -534,7 +547,7 @@ Z.B.:
 \begin{frame}[fragile]
 \frametitle{Kürzeste Funktion mit undefinierten Verhalten}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
+\begin{lstlisting}
 int f(int x) { return -x; }
 
 int main(void)
@@ -558,13 +571,15 @@ auf meinem Rechner:
 \begin{itemize}
 \item uninitialisierte Variablen: \texttt{memset} für Arrays teuer...
 \item Signed integer overflows:
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
+\begin{lstlisting}
 int i;
 i+1 > i; /* true */ 
 i*2/2; /* i */
 
-for(i=0; i<=N; ++i) /* wird N+1 mal ausgefuehrt */
-{ ... }
+/* Schleife wird N+1 mal ausgefuehrt */
+for(i = 0; i <= N; ++i) {
+	...
+}
 \end{lstlisting}
 \item Out of Bounds Array Access: Checks zur Laufzeit teuer, würde Binärkompatibilität mit alten Programmen brechen
 \end{itemize}
@@ -574,9 +589,8 @@ for(i=0; i<=N; ++i) /* wird N+1 mal ausgefuehrt */
 \begin{frame}[fragile]
 \frametitle{Undefiniertes Verhalten und Optimierungen}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
-void f(int *P)
-{
+\begin{lstlisting}
+void f(int *P) {
     int dead = *P;
     if (P == NULL)
         return;
@@ -604,9 +618,8 @@ Dead Code Elimination:
 
 \vfill
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
-void f(int *P)
-{
+\begin{lstlisting}
+void f(int *P) {
     int dead = *P; /* dead code */
     if (P == NULL)
         return;
@@ -623,10 +636,9 @@ Redundant Null Check Elimination:
 
 \vfill
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
-void f(int *P)
-{
-    if (P == NULL) /* Check ist nicht redundant */
+\begin{lstlisting}
+void f(int *P) {
+    if (P == NULL) /* Check nicht redundant */
         return;
     *P = 4;
 }
@@ -641,9 +653,8 @@ Code mit zuerst DCE und danach RNCE:
 
 \vfill
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
-void f(int *P)
-{
+\begin{lstlisting}
+void f(int *P) {
     if (P == NULL)
         return;
     *P = 4;
@@ -669,9 +680,8 @@ Redundant Null Check Elimination:
 
 \vfill
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
-void f(int *P)
-{
+\begin{lstlisting}
+void f(int *P) {
     int dead = *P;
     if (P == NULL) /* P darf nicht NULL sein */
         return;
@@ -688,9 +698,8 @@ Dead code elimination:
 
 \vfill
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
-void f(int *P)
-{
+\begin{lstlisting}
+void f(int *P) {
     int dead = *P; /* dead code */
     *P = 4;
 }
@@ -705,9 +714,8 @@ Code mit zuerst RNCE und danach DCE:
 
 \vfill
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
-void f(int *P)
-{
+\begin{lstlisting}
+void f(int *P) {
     *P = 4;
 }
 \end{lstlisting}
@@ -716,9 +724,9 @@ void f(int *P)
 
 \begin{frame}[fragile]
 \frametitle{Undefiniertes Verhalten und Security}
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
+\begin{lstlisting}
 void process_something(int size) {
-    /* integer overflow */
+    /* check for integer overflow */
     if (size > size+1)
         abort();
     
@@ -746,7 +754,7 @@ Nach Optimieren sieht der Code vermutlich so aus:
 
 \vfill
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
+\begin{lstlisting}
 void process_something(int size) {
     ...
 
@@ -763,7 +771,7 @@ void process_something(int size) {
 \begin{frame}[fragile]
 \frametitle{Real-world Beispiel}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
+\begin{lstlisting}
 void __devexit agnx_pci_remove (struct pci_dev *pdev)
 {
     struct ieee80211_hw *dev = pci_get_drvdata(pdev);
@@ -786,14 +794,21 @@ void __devexit agnx_pci_remove (struct pci_dev *pdev)
 Assume that programs cannot safely dereference null pointers, and that no code or data element resides there.  This enables simple constant folding optimizations at all optimization levels.  In
 addition, other optimization passes in GCC use this flag to control global dataflow analyses that eliminate useless checks for null pointers; these assume that if a pointer is checked after it
 has already been dereferenced, it cannot be null.
+
+\vfill
+
+Note however that in some environments this assumption is not true.  Use
+\texttt{-fno-delete-null-pointer-checks} to disable this optimization for programs that
+depend on that behavior.
 \end{addmargin}
+
 }
 
 
 \begin{frame}[fragile]
 \frametitle{Undefiniertes Verhalten und Debugging...}
 
-\begin{lstlisting}[language=C,basicstyle=\ttfamily\small,keywordstyle=\color{red}]
+\begin{lstlisting}
 void f(bool b) {
     if(b)
         printf("true\n");
@@ -912,3 +927,4 @@ Exiting
 }
 
 \end{document}
+\grid
