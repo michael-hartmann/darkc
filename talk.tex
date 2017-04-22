@@ -297,6 +297,16 @@ SQUARE(3000000000.); // 9e18
 \begin{frame}[fragile]
 \frametitle{Macros}
 
+Noch richtiger:
+
+\begin{lstlisting}
+#define SQUARE(x) ((x)*(x))
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Macros}
+
 \begin{lstlisting}
 #define MIN(X, Y)  ((X) < (Y) ? (X) : (Y))
 
@@ -432,7 +442,7 @@ if(buf == NULL)
 
 ...
 
-buf = realloc(buffer, newelems*sizeof(char));
+buf = realloc(buf, newelems*sizeof(char));
 if(buf == NULL)
     /* Memory leak */
     ...
@@ -575,6 +585,10 @@ auf meinem Rechner:
 	101 & −3 \\
 	100 & -4
     \end{tabular}
+\end{center}
+
+\begin{center}
+{\color{red}Aber:} Der Compiler kann machen, was er will!
 \end{center}
 }
 
