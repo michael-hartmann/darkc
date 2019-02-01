@@ -13,3 +13,5 @@ auch noch undefiniertes Verhalten...
 
 Dieser Vortrag gibt einen Überblick über die unschönen Seiten von C, zeigt wie typische Sicherheitslücken
 entstehen und ausgenutzt werden, und was undefiniertes Verhalten bedeutet.
+
+Der Vortrag ist auch auf [youtube](https://www.youtube.com/watch?v=kXdkjKEO-YY&index=7&t=0s&list=PLuekU6EyjBh5w8Pb3YLrb81rFxRJihEVC) verfügbar.
